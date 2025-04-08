@@ -51,5 +51,3 @@ If you have any questions, feel free to reach out:
 Happy Reading! 📚✨
 
 ```
-
-Feel free to customize this README to better fit the specifics of your project.
