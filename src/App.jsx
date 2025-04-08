@@ -13,9 +13,25 @@ function App() {
   } = useBookStore();
 
   const searchBooks = async (searchTerm = "harry potter") => {
-    const res = await fetch(`https://openlibrary.org/search.json?q=${searchTerm}`);
-    const data = await res.json();
-    setBooks(data.docs.slice(0, 12));
+    try {
+      if (!searchTerm.trim()) return;
+      
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
+      const res = await fetch(`https://openlibrary.org/search.json?q=${searchTerm}`, {
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      
+      if (!res.ok) throw new Error('API request failed');
+      
+      const data = await res.json();
+      setBooks(data.docs.slice(0, 12));
+    } catch (error) {
+      console.error('Search error:', error);
+      alert('Search failed. Please try again later.');
+    }
   };
 
   useEffect(() => {
