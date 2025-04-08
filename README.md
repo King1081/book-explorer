@@ -1,5 +1,3 @@
-Creating a catchy and effective README is important for making your repository appealing and informative. Here's a quick and catchy README for your "book-explorer" project:
-
 ```markdown
 # 📚 Book Explorer
 
