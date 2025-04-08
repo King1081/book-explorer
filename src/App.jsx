@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./index.css";
-import useBookStore from "./store/useBookStore";
+import useBookStore from "./UseBookStore.jsx";
 
 function App() {
   const [query, setQuery] = useState("");
