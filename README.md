@@ -47,7 +47,3 @@ If you have any questions, feel free to reach out:
 - **GitHub Issues:** [Create an Issue](https://github.com/King1081/book-explorer/issues)
 
 ---
-
-Happy Reading! 📚✨
-
-```
