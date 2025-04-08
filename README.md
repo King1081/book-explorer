@@ -43,7 +43,7 @@ I welcome contributions and corrections!
 
 If you have any questions, feel free to reach out:
 
-- **Email:** [your-email@example.com](papahquansah@gmail.com)
+- **Email:** [king](papahquansah@gmail.com)
 - **GitHub Issues:** [Create an Issue](https://github.com/King1081/book-explorer/issues)
 
 ---
