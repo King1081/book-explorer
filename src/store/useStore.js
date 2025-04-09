@@ -5,7 +5,10 @@ const useBookStore = create((set) => ({
   favorites: [],
   searchQuery: '',
   setBooks: (books) => set({ books }),
-  setSearchQuery: (query) => set({ searchQuery: query }),
+  setSearchQuery: (query) => {
+    set({ searchQuery: query });
+    return query;
+  },
   toggleFavorite: (book) =>
     set((state) => {
       const exists = state.favorites.some((fav) => fav.key === book.key);

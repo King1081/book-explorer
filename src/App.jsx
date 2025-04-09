@@ -6,6 +6,7 @@ export default function App() {
   const setSearchQuery = useBookStore((state) => state.setSearchQuery);
 
   const handleSearch = (query) => {
+    console.log('App - received search query:', query);
     setSearchQuery(query);
   };
 

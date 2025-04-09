@@ -4,37 +4,41 @@ import useBookStore from "../store/useStore";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
-  const { books, setBooks, searchQuery } = useBookStore();
+  const { books, setBooks, searchQuery, setSearchQuery } = useBookStore();
 
   useEffect(() => {
-    const fetchPopularBooks = async () => {
-      if (books.length === 0) {
-        setLoading(true);
-        try {
-          const res = await fetch(
-            "https://openlibrary.org/search.json?q=subject:fiction&limit=12&sort=rating"
-          );
-          const data = await res.json();
-          setBooks(data.docs);
-        } catch (error) {
-          console.error("Error fetching popular books:", error);
-        } finally {
-          setLoading(false);
-        }
+    const fetchBooks = async () => {
+      setLoading(true);
+      try {
+        const url = searchQuery 
+          ? `https://openlibrary.org/search.json?q=${encodeURIComponent(searchQuery)}`
+          : "https://openlibrary.org/search.json?q=subject:fiction&limit=12&sort=rating";
+        
+        const res = await fetch(url);
+        const data = await res.json();
+        setBooks(data.docs);
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchPopularBooks();
-  }, []);
 
+    fetchBooks();
+  }, [searchQuery]);
+
+  console.log('Home - current searchQuery:', searchQuery);
+  console.log('Home - books count:', books.length);
   const filteredBooks = books.filter((book) => {
     if (!searchQuery) return true;
-    return (
-      book.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      book.author_name?.some((author) =>
-        author.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+    const matchesTitle = book.title?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesAuthor = book.author_name?.some((author) =>
+      author.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    console.log('Book:', book.title, '| matchesTitle:', matchesTitle, '| matchesAuthor:', matchesAuthor);
+    return matchesTitle || matchesAuthor;
   });
+  console.log('Home - filteredBooks count:', filteredBooks.length);
 
   return (
     <div className="min-h-screen bg-gray-100">
