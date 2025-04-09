@@ -49,7 +49,7 @@ export default function BookCard({ book }) {
               : "text-gray-400"
           }`}
         >
-          ❤️ Add to Favorite
+          ❤️ Add to Favourites
         </button>
       </div>
     </div>
