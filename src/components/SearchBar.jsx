@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
 
 export default function SearchBar({ onSearch }) {
   const [query, setQuery] = useState("");
@@ -12,19 +14,19 @@ export default function SearchBar({ onSearch }) {
   return (
     <form onSubmit={handleSubmit} className="mb-6">
       <div className="flex">
-        <input
+        <Input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for books..."
-          className="flex-grow px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-grow rounded-r-none focus-visible:ring-0 focus-visible:ring-offset-0"
         />
-        <button
+        <Button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="rounded-l-none"
         >
           Search
-        </button>
+        </Button>
       </div>
     </form>
   );
