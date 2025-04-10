@@ -1,13 +1,11 @@
-import { useState } from "react";
 import BookCard from "../components/BookCard";
-import SearchBar from "../components/SearchBar";
 import useBookStore from "../store/useStore";
 
 export default function Favorites() {
-  const { favorites } = useBookStore();
-  const [searchQuery, setSearchQuery] = useState("");
+  const { favorites, searchQuery } = useBookStore();
 
   const filteredFavorites = favorites.filter((book) => {
+    if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     return (
       book.title?.toLowerCase().includes(query) ||
