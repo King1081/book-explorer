@@ -3,10 +3,13 @@ import useBookStore from "../store/useStore";
 
 export default function Favorites() {
   const { favorites, searchQuery } = useBookStore();
+  console.log('Favorites - current searchQuery:', searchQuery);
+  console.log('Favorites - favorites count:', favorites.length);
 
   const filteredFavorites = favorites.filter((book) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
+    console.log('Checking book:', book.title, 'for query:', query);
     return (
       book.title?.toLowerCase().includes(query) ||
       book.author_name?.some((author) =>
