@@ -1,37 +1,35 @@
 import BookCard from "../components/BookCard";
 import useBookStore from "../store/useStore";
 import toast from 'react-hot-toast';
-import { useEffect } from 'react';
-
+import { useEffect, useRef } from 'react';
 
 export default function Favorites() {
   const { favorites, searchQuery } = useBookStore();
-  console.log('Favorites - current searchQuery:', searchQuery);
-  console.log('Favorites - favorites count:', favorites.length);
+  const hasShownToast = useRef(false); // ✅ You need this
 
   useEffect(() => {
-    if (favorites.length === 0) {
+    if (favorites.length === 0 && !hasShownToast.current) {
       toast('No favorites yet! Save a book to get started 📚', {
         icon: 'ℹ️',
-      style: {
-        border: '1px solid #713200',
-        padding: '16px',
-        color: '#713200',
-      },
-      iconTheme: {
-        primary: '#713200',
-        secondary: '#FFFAEE',
-      },
+        style: {
+          border: '1px solid #713200',
+          padding: '16px',
+          color: '#713200',
+        },
+        iconTheme: {
+          primary: '#713200',
+          secondary: '#FFFAEE',
+        },
+        duration: 5000,
+      });
 
-        duration: 5000,});
+      hasShownToast.current = true;
     }
   }, [favorites]);
-  
 
   const filteredFavorites = favorites.filter((book) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
-    console.log('Checking book:', book.title, 'for query:', query);
     return (
       book.title?.toLowerCase().includes(query) ||
       book.author_name?.some((author) =>
