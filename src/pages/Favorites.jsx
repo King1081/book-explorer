@@ -1,10 +1,32 @@
 import BookCard from "../components/BookCard";
 import useBookStore from "../store/useStore";
+import toast from 'react-hot-toast';
+import { useEffect } from 'react';
+
 
 export default function Favorites() {
   const { favorites, searchQuery } = useBookStore();
   console.log('Favorites - current searchQuery:', searchQuery);
   console.log('Favorites - favorites count:', favorites.length);
+
+  useEffect(() => {
+    if (favorites.length === 0) {
+      toast('No favorites yet! Save a book to get started 📚', {
+        icon: 'ℹ️',
+      style: {
+        border: '1px solid #713200',
+        padding: '16px',
+        color: '#713200',
+      },
+      iconTheme: {
+        primary: '#713200',
+        secondary: '#FFFAEE',
+      },
+
+        duration: 5000,});
+    }
+  }, [favorites]);
+  
 
   const filteredFavorites = favorites.filter((book) => {
     if (!searchQuery) return true;

@@ -1,14 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 
 export default function SearchBar({ onSearch }) {
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  useEffect(() => {
+    if (debouncedQuery !== "") {
+      console.log('SearchBar - submitting debounced query:', debouncedQuery);
+      onSearch(debouncedQuery);
+    }
+  }, [debouncedQuery, onSearch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('SearchBar - submitting query:', query);
-    onSearch(query);
+    if (query !== "") {
+      console.log('SearchBar - submitting immediate query:', query);
+      onSearch(query);
+    }
   };
 
   return (

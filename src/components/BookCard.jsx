@@ -48,7 +48,7 @@ export default function BookCard({ book }) {
             onClick={(e) => {
               e.stopPropagation();
               toggleFavorite(book);
-              alert(favorites.some(fav => fav.key === book.key) ? "Removed from favorites" : "Added to favorites");
+              
             }}
             className={`gap-2 ${
               favorites.some(fav => fav.key === book.key)

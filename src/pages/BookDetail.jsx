@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useBookStore from "../store/useStore";
 import SearchBar from "../components/SearchBar";
+import  toast from "react-hot-toast";
 
 export default function BookDetail() {
   const { id } = useParams();
@@ -19,6 +20,7 @@ export default function BookDetail() {
         setBook(data);
       } catch (error) {
         console.error("Error fetching book:", error);
+        toast.error("Failed to fetch book details");
       } finally {
         setLoading(false);
       }
@@ -27,17 +29,24 @@ export default function BookDetail() {
     fetchBookDetails();
   }, [id]);
 
+  const handleSearch = (query) => { };
+  const setSearchQuery = useBookStore((state) => state.setSearchQuery);
+  const searchQuery = useBookStore((state) => state.searchQuery);
+  
+
   if (loading) return <div className="p-4">Loading...</div>;
   if (!book) return <div className="p-4">Book not found</div>;
 
+  
+ 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-8">
+    <div className="min-h-screen bg-gray-100 p-4 md:p-8"> 
       <div className="break-words max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
         <button 
           onClick={() => navigate(-1)}
           className="mb-4 px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
         >
-          ← Back to results
+          🔙 To results
         </button>
 
         <div className="flex flex-col md:flex-row gap-6">
@@ -63,7 +72,32 @@ export default function BookDetail() {
             
             <div className="flex items-center mb-4">
               <button
-                onClick={() => toggleFavorite(book)}
+                onClick={() => {
+                  const isCurrentlyFavorite = favorites.some(fav => fav.key === book.key);
+                  toggleFavorite(book);
+                  if (isCurrentlyFavorite) {
+                    toast('Removed from favorites 💔', {
+                      icon: '❌',
+                      style: {
+                        borderRadius: '8px',
+                        background: '#fef2f2',
+                        color: '#b91c1c',
+                      },
+                    });
+                  } else {
+                    toast('Added to favorites ❤️', {
+                      icon: '⭐',
+                      style: {
+                        borderRadius: '8px',
+                        background: '#ecfdf5',
+                        color: '#065f46',
+                      },
+                    });
+                  }
+                }}
+                
+                
+
                 className={`text-2xl mr-2 ${
                   favorites.some(fav => fav.key === book.key)
                     ? "text-yellow-500"
